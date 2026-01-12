@@ -1,17 +1,72 @@
 package com.gestionprotectora;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import com.gestionprotectora.util.Menu;
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        int opcionPrincipal;
+
+        do {
+            opcionPrincipal = Menu.menuPrincipal();
+
+            switch (opcionPrincipal) {
+                case 1:
+                    gestionarAnimales();
+                case 2:
+                    gestionarAdoptantes();
+                case 3:
+                    gestionarAdopciones();
+                case 0:
+                    System.out.println("Saliendo del programa");
+                default:
+                    System.out.println("Opción no valida");
+            }
+
+        } while (opcionPrincipal != 0);
+
     }
+
+        private static void gestionarAnimales(){
+            int opcion;
+            do{
+            opcion = Menu.menuAnimales();
+            switch(opcion){
+                case 1: System.out.println("Añadir animal");
+                case 2: System.out.println("Listar animales");
+                case 3: System.out.println("Listar disponibles");
+                case 4: System.out.println("Cambiar estado");
+                case 0: System.out.println("Volviendo al menu principal");
+                default: System.out.println("Opción no valida");
+
+            }
+            }while (opcion != 0);
+            }
+
+
+        private static void gestionarAdoptantes(){
+        int opcion;
+        do{
+            opcion = Menu.menuAdoptantes();
+            switch(opcion){
+                case 1: System.out.println("Añadir adoptante");
+                case 2: System.out.println("Listar adoptantes");
+                case 0: System.out.println("Volviendo al menu principal");
+                default: System.out.println("Opcion no valida");
+            }
+        } while(opcion != 0);
+        }
+
+
+        private static void gestionarAdopciones(){
+        int opcion;
+        do{
+            opcion = Menu.menuAdopciones();
+            switch(opcion){
+                case 1: System.out.println("Registrar adopción");
+                case 2: System.out.println("Ver adopciones");
+                case 0: System.out.println("Volviendo al menu principal");
+                default: System.out.println("Opcion no valida");
+            }
+        } while (opcion != 0);
+        }
 }
