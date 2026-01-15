@@ -1,8 +1,30 @@
 package com.gestionprotectora;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import com.gestionprotectora.util.Menu;
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+
+        try(Connection con = DBConnection.getConnection()){
+            System.out.println("Conexion ok");
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT 1");
+
+            if(rs.next()){
+                System.out.println("Consulta OK:" + rs.getInt(1));
+            }
+
+
+        } catch (Exception e) {
+            System.out.println("Error de conexion");
+            e.printStackTrace();
+        }
+
 
         int opcionPrincipal;
 
