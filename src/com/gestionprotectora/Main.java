@@ -4,7 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.Scanner;
 
+import com.gestionprotectora.dao.AnimalDAO;
+import com.gestionprotectora.model.Animal;
 import com.gestionprotectora.util.Menu;
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -49,12 +53,44 @@ public class Main {
     }
 
         private static void gestionarAnimales(){
+            Scanner sc = new Scanner(System.in);
+            AnimalDAO animalDAO = new AnimalDAO();
             int opcion;
             do{
             opcion = Menu.menuAnimales();
             switch(opcion){
-                case 1: System.out.println("Añadir animal");
-                case 2: System.out.println("Listar animales");
+                case 1: { //Añadir animal
+                    System.out.println("Nombre: ");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("Especie");
+                    String especie = sc.nextLine();
+
+                    System.out.println("Edad");
+                    int edad = sc.nextInt();
+                    sc.nextLine();
+
+                    Animal animal = new Animal(0, nombre, especie, edad, false);
+                    animalDAO.insertarAnimal(animal);
+                    System.out.println("Animal registrado");
+
+                }
+                case 2: { // Listar todos los animales
+                    List<Animal> animales = animalDAO.listarAnimales();
+
+                    for(Animal a : animales) {
+                        System.out.println(
+                                a.getId() + " - " +
+                                        a.getNombre() + " (" +
+                                        a.getEspecie() + ") edad: " +
+                                        a.getEdad() + " " + "años "+" Adoptado: " +
+                                        a.isAdoptado()
+
+                        );
+
+                    }
+                    }
+
                 case 3: System.out.println("Listar disponibles");
                 case 4: System.out.println("Cambiar estado");
                 case 0: System.out.println("Volviendo al menu principal");
