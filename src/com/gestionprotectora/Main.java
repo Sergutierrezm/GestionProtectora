@@ -10,16 +10,17 @@ import java.util.Scanner;
 import com.gestionprotectora.dao.AnimalDAO;
 import com.gestionprotectora.model.Animal;
 import com.gestionprotectora.util.Menu;
+
 public class Main {
     public static void main(String[] args) throws SQLException {
 
-        try(Connection con = DBConnection.getConnection()){
+        try (Connection con = DBConnection.getConnection()) {
             System.out.println("Conexion ok");
 
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT 1");
 
-            if(rs.next()){
+            if (rs.next()) {
                 System.out.println("Consulta OK:" + rs.getInt(1));
             }
 
@@ -52,13 +53,13 @@ public class Main {
 
     }
 
-        private static void gestionarAnimales(){
-            Scanner sc = new Scanner(System.in);
-            AnimalDAO animalDAO = new AnimalDAO();
-            int opcion;
-            do{
+    private static void gestionarAnimales() {
+        Scanner sc = new Scanner(System.in);
+        AnimalDAO animalDAO = new AnimalDAO();
+        int opcion;
+        do {
             opcion = Menu.menuAnimales();
-            switch(opcion){
+            switch (opcion) {
                 case 1: { //Añadir animal
                     System.out.println("Nombre: ");
                     String nombre = sc.nextLine();
@@ -73,58 +74,102 @@ public class Main {
                     Animal animal = new Animal(0, nombre, especie, edad, false);
                     animalDAO.insertarAnimal(animal);
                     System.out.println("Animal registrado");
+                    break;
 
                 }
                 case 2: { // Listar todos los animales
                     List<Animal> animales = animalDAO.listarAnimales();
 
-                    for(Animal a : animales) {
+                    for (Animal a : animales) {
                         System.out.println(
                                 a.getId() + " - " +
                                         a.getNombre() + " (" +
                                         a.getEspecie() + ") edad: " +
-                                        a.getEdad() + " " + "años "+" Adoptado: " +
+                                        a.getEdad() + " " + "años " + " Adoptado: " +
                                         a.isAdoptado()
 
                         );
 
                     }
+                    break;
+                }
+
+                case 3: { //Listar animales disponibles
+                    List<Animal> animales = animalDAO.listarAnimalesDisponibles();
+
+                    if (animales.isEmpty()) {
+                        System.out.println("No hay animales disponibles");
+                    } else {
+                        for (Animal a : animales) {
+                            System.out.println(
+                                    a.getId() + " - " +
+                                            a.getNombre() + " (" +
+                                            a.getEspecie() + ") edad: " +
+                                            a.getEdad() + " " + "años " + " Adoptado: " +
+                                            a.isAdoptado()
+                            );
+                        }
                     }
+                    break;
 
-                case 3: System.out.println("Listar disponibles");
-                case 4: System.out.println("Cambiar estado");
-                case 0: System.out.println("Volviendo al menu principal");
-                default: System.out.println("Opción no valida");
+                }
+                case 4: { //Cambiar estado a adoptado
+                    System.out.println("Introduce el ID del animal a adoptar:");
+                    int id = sc.nextInt();
+                    sc.nextLine();
 
-            }
-            }while (opcion != 0);
-            }
+                    boolean actualizado = animalDAO.marcarComoAdoptado(id);
 
+                    if (actualizado) {
+                        System.out.println("Animal marcado como adoptado");
+                    } else {
+                        System.out.println("No existe ningun animal con ese ID");
+                    }
+                    break;
+                }
+                case 0:
+                    System.out.println("Volviendo al menu principal");
+                    break;
+                default:
+                    System.out.println("Opción no valida");
 
-        private static void gestionarAdoptantes(){
-        int opcion;
-        do{
-            opcion = Menu.menuAdoptantes();
-            switch(opcion){
-                case 1: System.out.println("Añadir adoptante");
-                case 2: System.out.println("Listar adoptantes");
-                case 0: System.out.println("Volviendo al menu principal");
-                default: System.out.println("Opcion no valida");
-            }
-        } while(opcion != 0);
-        }
-
-
-        private static void gestionarAdopciones(){
-        int opcion;
-        do{
-            opcion = Menu.menuAdopciones();
-            switch(opcion){
-                case 1: System.out.println("Registrar adopción");
-                case 2: System.out.println("Ver adopciones");
-                case 0: System.out.println("Volviendo al menu principal");
-                default: System.out.println("Opcion no valida");
             }
         } while (opcion != 0);
-        }
+    }
+
+
+    private static void gestionarAdoptantes() {
+        int opcion;
+        do {
+            opcion = Menu.menuAdoptantes();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Añadir adoptante");
+                case 2:
+                    System.out.println("Listar adoptantes");
+                case 0:
+                    System.out.println("Volviendo al menu principal");
+                default:
+                    System.out.println("Opcion no valida");
+            }
+        } while (opcion != 0);
+    }
+
+
+    private static void gestionarAdopciones() {
+        int opcion;
+        do {
+            opcion = Menu.menuAdopciones();
+            switch (opcion) {
+                case 1:
+                    System.out.println("Registrar adopción");
+                case 2:
+                    System.out.println("Ver adopciones");
+                case 0:
+                    System.out.println("Volviendo al menu principal");
+                default:
+                    System.out.println("Opcion no valida");
+            }
+        } while (opcion != 0);
+    }
 }
