@@ -25,7 +25,9 @@ public class Menu {
         System.out.println("1. Añadir animal");
         System.out.println("2. Listar todos los animales");
         System.out.println("3. Listar animales disponibles");
-        System.out.println("4. Camiar estado de animal");
+        System.out.println("4. Cambiar estado si adoptado");
+        System.out.println("5. Cambiar estado no adoptado");
+        System.out.println("6. Eliminar animal");
         System.out.println("0. Volver al menu principal");
         System.out.println("Elige una opcion");
 

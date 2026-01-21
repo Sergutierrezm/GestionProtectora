@@ -96,6 +96,40 @@ public class AnimalDAO {
             e.printStackTrace();
             return false;
         }
+
+
+    }
+
+
+    public boolean marcarComoNoAdoptado(int idAnimal, boolean adoptado) {
+        String sql = "UPDATE animal SET adoptado = ? WHERE id  = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setBoolean(1, adoptado);
+            ps.setInt(2, idAnimal);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean eliminarAnimal(int idAnimal) {
+        String sql = "DELETE FROM animal WHERE id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idAnimal);
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

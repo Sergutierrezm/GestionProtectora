@@ -127,6 +127,38 @@ public class Main {
                     }
                     break;
                 }
+
+                case 5: { //Cambiar estado a no adoptado
+                    System.out.println("Introduce el ID del animal");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    boolean ok = animalDAO.marcarComoNoAdoptado(id, false);
+
+                    if (ok) {
+                        System.out.println("Animal marcado como no adoptado");
+                    } else {
+                        System.out.println("No se encontro el animal indicado");
+                    }
+                    break;
+
+                }
+
+                case 6: { //Eliminar animal
+                    System.out.println("Introduce el ID del animal que quieres eliminar");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    boolean eliminado = animalDAO.eliminarAnimal(id);
+
+                    if (eliminado) {
+                        System.out.println("Animal eliminado");
+                    } else {
+                        System.out.println("No sé encontró el animal indicado");
+                    }
+                    break;
+
+                }
                 case 0:
                     System.out.println("Volviendo al menu principal");
                     break;
