@@ -84,13 +84,13 @@ public class AnimalDAO {
 
     }
 
-    public boolean marcarComoAdoptado(int idAnimal) {
+    public boolean marcarComoAdoptado(int id) {
         String sql = "UPDATE animal SET Adoptado = true WHERE id = ?";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, idAnimal);
+            ps.setInt(1, id);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
