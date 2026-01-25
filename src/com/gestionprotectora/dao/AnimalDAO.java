@@ -132,5 +132,45 @@ public class AnimalDAO {
         }
     }
 
+    public Animal buscarPorId(int id) {
+        String sql = "SELECT * FROM animal WHERE id = ?";
+        Animal animal = null;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                animal = new Animal(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("especie"),
+                        rs.getInt("edad"),
+                        rs.getBoolean("adoptado")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+
+        }
+        return animal;
+
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

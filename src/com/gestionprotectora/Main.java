@@ -7,8 +7,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
+import com.gestionprotectora.dao.AdopcionDAO;
 import com.gestionprotectora.dao.AdoptanteDAO;
 import com.gestionprotectora.dao.AnimalDAO;
+import com.gestionprotectora.model.Adopcion;
 import com.gestionprotectora.model.Adoptante;
 import com.gestionprotectora.model.Animal;
 import com.gestionprotectora.util.Menu;
@@ -277,12 +279,58 @@ public class Main {
 
 
     private static void gestionarAdopciones() {
+        Scanner sc = new Scanner(System.in);
         int opcion;
         do {
             opcion = Menu.menuAdopciones();
             switch (opcion) {
-                case 1:
-                    System.out.println("Registrar adopción");
+                case 1: { //Registrar adopcion
+                    System.out.println("Introduce el ID del animal adoptado");
+                    int idAnimal = sc.nextInt();
+
+                    System.out.println("Introduce el ID del adoptante");
+                    int idAdoptante = sc.nextInt();
+
+
+
+
+                    //Traemos los objetos desde la bd
+
+                    AnimalDAO animalDAO = new AnimalDAO();
+                    AdoptanteDAO adoptanteDAO = new AdoptanteDAO();
+
+                    Animal animal = animalDAO.buscarPorId(idAnimal);
+                    Adoptante adoptante = adoptanteDAO.buscarPorId(idAdoptante);
+
+                    if(animal == null) {
+                        System.out.println("No existe ningun animal con ese ID");
+                        break;
+                    }
+
+                    if(adoptante == null){
+                        System.out.println("No existe ningun adoptante con ese ID");
+                        break;
+                    }
+
+                    if(animal.isAdoptado()){
+                        System.out.println("Este animal ya esta adoptado");
+                        break;
+                    }
+                    AdopcionDAO adopcionDAO = new AdopcionDAO();
+                    Adopcion adopcion = new Adopcion(animal, adoptante);
+
+                    boolean ok = adopcionDAO.registrarAdopcion(adopcion);
+
+                    if(ok){
+                        animalDAO.marcarComoAdoptado(animal.getId());
+                        System.out.println("Adopcion registrada correctamente");
+
+                    }else{
+                        System.out.println("No se pudo registrar la adopcion");
+                    }
+                        break;
+                }
+
                 case 2:
                     System.out.println("Ver adopciones");
                 case 0:
