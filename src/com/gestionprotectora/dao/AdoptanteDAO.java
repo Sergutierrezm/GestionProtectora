@@ -19,7 +19,7 @@ public class AdoptanteDAO {
 
             ps.setString(1, adoptante.getNombre());
             ps.setString(2, adoptante.getDni());
-            ps.setInt(3, adoptante.getTelefono());
+            ps.setString(3, adoptante.getTelefono());
             ps.setString(4, adoptante.getEmail());
             ps.setString(5, adoptante.getDireccion());
 
@@ -31,6 +31,7 @@ public class AdoptanteDAO {
 
     }
 
+    //Listar todos los adoptantes
 
     public List<Adoptante> listarAdoptantes() {
         List<Adoptante> adoptantes = new ArrayList<>();
@@ -45,7 +46,7 @@ public class AdoptanteDAO {
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("dni"),
-                        rs.getInt("telefono"),
+                        rs.getString("telefono"),
                         rs.getString("email"),
                         rs.getString("direccion")
                 );
@@ -57,19 +58,45 @@ public class AdoptanteDAO {
         return adoptantes;
     }
 
-    //Pendiente
-    public Adoptante BuscarPorId(int id) {
-        String sql = "SELECT * FROM Adoptante WHERE id = ?";
+    //Filtrar por ID
+    public Adoptante buscarPorId(int id) {
+        String sql = "SELECT * FROM adoptante WHERE id = ?";
         Adoptante adoptante = null;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, id);
-            resultSet rs = ps.executeQuery();
-        }
+            ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
+                adoptante = new Adoptante(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("dni"),
+                        rs.getString("telefono"),
+                        rs.getString("email"),
+                        rs.getString("direccion")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return adoptante;
 
     }
 
+    public boolean eliminarAdoptante (int idAdoptante) {
+        String sql = "DELETE FROM Adoptante WHERE id = ?";
+
+        try(Connection con = DBConnection.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idAdoptante);
+            return ps.executeUpdate() > 0;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

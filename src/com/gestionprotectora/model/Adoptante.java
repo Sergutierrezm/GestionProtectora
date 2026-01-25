@@ -4,11 +4,11 @@ public class Adoptante {
     private int id;
     private String nombre;
     private String dni;
-    private int telefono;
+    private String telefono;
     private String email;
     private String direccion;
 
-    public Adoptante(int id, String nombre, String dni, int telefono, String email, String direccion){
+    public Adoptante(int id, String nombre, String dni, String telefono, String email, String direccion){
         this.id = id;
         this.nombre = nombre;
         this.dni = dni;
@@ -37,11 +37,11 @@ public class Adoptante {
         this.dni= dni;
     }
 
-    public int getTelefono(){
+    public String getTelefono(){
         return telefono;
     }
 
-    public void setTelefono(int telefono){
+    public void setTelefono(String telefono){
         this.telefono = telefono;
     }
 

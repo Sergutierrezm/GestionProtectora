@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Scanner;
 
+import com.gestionprotectora.dao.AdoptanteDAO;
 import com.gestionprotectora.dao.AnimalDAO;
+import com.gestionprotectora.model.Adoptante;
 import com.gestionprotectora.model.Animal;
 import com.gestionprotectora.util.Menu;
 
@@ -171,14 +173,100 @@ public class Main {
 
 
     private static void gestionarAdoptantes() {
+        Scanner sc = new Scanner(System.in);
+        AdoptanteDAO adoptanteDAO = new AdoptanteDAO();
         int opcion;
         do {
             opcion = Menu.menuAdoptantes();
             switch (opcion) {
-                case 1:
-                    System.out.println("Añadir adoptante");
-                case 2:
-                    System.out.println("Listar adoptantes");
+                case 1: { //Añadir adoptante
+                    System.out.println("Nombre:");
+                    String nombre = sc.nextLine();
+
+                    System.out.println("dni:");
+                    String dni = sc.nextLine();
+
+                    System.out.println("telefono:");
+                   String telefono = sc.nextLine();
+
+                    System.out.println("email:");
+                   String email = sc.nextLine();
+
+                    System.out.println("direccion:");
+                   String direccion = sc.nextLine();
+                   sc.nextLine();
+
+                   Adoptante adoptante = new Adoptante(0, nombre, dni, telefono, email, direccion);
+                   adoptanteDAO.insertarAdoptante(adoptante);
+                   System.out.println("Adoptante registrado");
+
+                   break;
+
+
+
+                }
+
+                case 2: { //Listar adoptantes
+                    List<Adoptante> adoptantes = adoptanteDAO.listarAdoptantes();
+
+                    for (Adoptante a : adoptantes){
+                        System.out.println(
+                                a.getId() + " - " +
+                                        a.getNombre() + " ("+
+                                        a.getDni() + ") telefono: " +
+                                        a.getTelefono() + " " +
+                                        a.getEmail()+ " " + " " +
+                                        a.getDireccion()
+
+
+                        );
+                    }
+                    break;
+
+                }
+
+                case 3: { // Buscar por ID adoptante
+                    System.out.println("Indica el ID del adoptante que quieres buscar");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+
+                    Adoptante adoptante = adoptanteDAO.buscarPorId(id);
+
+                    if(adoptante != null){
+                        System.out.println(
+                                adoptante.getId() + " - " +
+                                adoptante.getNombre() + " - " +
+                                adoptante.getDni() + " - " +
+                                adoptante.getTelefono() + " - " +
+                                adoptante.getEmail() + " - " +
+                                adoptante.getDireccion()
+                        );
+                    } else {
+                        System.out.println("No existe ningun adoptante con el ID indicado");
+                    }
+
+                    break;
+
+
+
+                }
+                case 4: { //Eliminar adoptante
+                    System.out.println("Indica el ID del adoptante que quieres eliminar");
+                    int id = sc.nextInt();
+
+                    boolean eliminado = adoptanteDAO.eliminarAdoptante(id);
+
+                    if(eliminado){
+                        System.out.println("Adoptante eliminado");
+                    }else {
+                        System.out.println("No se encontro el ID del adoptante que quieres eliminar");
+
+
+                    }
+
+                    break;
+
+                }
                 case 0:
                     System.out.println("Volviendo al menu principal");
                 default:
@@ -204,4 +292,8 @@ public class Main {
             }
         } while (opcion != 0);
     }
+
+
+
+
 }

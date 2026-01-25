@@ -38,6 +38,8 @@ public class Menu {
         System.out.println("\n--- Gestión de adoptantes ---");
         System.out.println("1. Añadir adoptante");
         System.out.println("2. Listar adoptante");
+        System.out.println("3. Buscar por ID");
+        System.out.println("4. Eliminar adoptante");
         System.out.println("0. Volver");
         System.out.println("Elige una opcion");
 
