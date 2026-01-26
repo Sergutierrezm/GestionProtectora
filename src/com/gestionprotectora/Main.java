@@ -331,8 +331,20 @@ public class Main {
                         break;
                 }
 
-                case 2:
-                    System.out.println("Ver adopciones");
+                case 2: { //Ver adopciones
+                    AdopcionDAO adopcionDAO = new AdopcionDAO();
+                    List<String> adopciones = adopcionDAO.listarAdopciones();
+
+                    if(adopciones.isEmpty()){
+                        System.out.println("no hay adopciones registradas");
+                    }else {
+                        for(String a : adopciones){
+                            System.out.println(a);
+                        }
+                    }
+                    break;
+                }
+
                 case 0:
                     System.out.println("Volviendo al menu principal");
                 default:
