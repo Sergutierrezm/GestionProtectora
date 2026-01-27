@@ -91,9 +91,6 @@ Las relaciones entre entidades se gestionan mediante claves foráneas.
 
 - Interfaz gráfica con JavaFX
 - Migración a Spring Boot
-- Creación de una API REST
-- Frontend web
-- Validaciones y seguridad
 
 ---
 
